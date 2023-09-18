@@ -5,7 +5,7 @@
         <li v-for="pers in totalPages" :key="pers">
           <router-link :to="`/people/?page=${changedPage}`"
             ><button
-              :class="{ actClass: changedPage === pers }"
+              :class="{ actClass: changedPage == pers }"
               class="btn-pagination"
               @click="changePage(pers)"
             >
@@ -34,7 +34,7 @@ export default {
   },
   created() {
     if (this.$route.query.page) {
-      this.changePage(this.$route.query.page);
+      this.changePage(Number(this.$route.query.page));
     }
   },
   methods: {
