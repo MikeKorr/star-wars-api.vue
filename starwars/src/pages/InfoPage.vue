@@ -9,32 +9,32 @@
     <div class="text">
       <img src="../assets/images/All.jpg" class="img" alt="Все персонажи" />
       <div class="info-box">
-        <span class="span-text">Name - {{ checkedPerson.name }}</span>
+        <span class="span-text">Name - {{ selectedPerson.name }}</span>
         <span class="span-text">
           {{
-            checkedPerson.climate
-              ? "Climate - " + checkedPerson.climate
-              : null || checkedPerson.skin_color
-              ? "Hair - " + checkedPerson.skin_color
-              : null || checkedPerson.manufacturer
-              ? "Manufacturer - " + checkedPerson.manufacturer
+            selectedPerson.climate
+              ? "Climate - " + selectedPerson.climate
+              : null || selectedPerson.skin_color
+              ? "Hair - " + selectedPerson.skin_color
+              : null || selectedPerson.manufacturer
+              ? "Manufacturer - " + selectedPerson.manufacturer
               : null
           }}
         </span>
         <span class="span-text">
           {{
-            checkedPerson.terrain
-              ? "Tarrain - " + checkedPerson.terrain
-              : null || checkedPerson.gender
-              ? "Gender - " + checkedPerson.gender
-              : null || checkedPerson.starship_class
-              ? "Starship class - " + checkedPerson.starship_class
+            selectedPerson.terrain
+              ? "Tarrain - " + selectedPerson.terrain
+              : null || selectedPerson.gender
+              ? "Gender - " + selectedPerson.gender
+              : null || selectedPerson.starship_class
+              ? "Starship class - " + selectedPerson.starship_class
               : null
           }}
         </span>
       </div>
       <div>
-        <router-link class="route-link" :to="`/moreinfo/${checkedPerson.id}`"
+        <router-link class="route-link" :to="`/moreinfo/${selectedPerson.id}`"
           >Click for more info</router-link
         >
       </div>
@@ -43,52 +43,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 export default {
   name: "InfoPage",
   props: {
-    personList: {
-      type: Array,
+    selectedPerson: {
+      type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-      checkedPerson: {},
-    };
-  },
-
-  watch: {
-    checkObj() {
-      this.checkedPerson = this.checkObj;
-    },
-  },
-
-  mounted() {
-    this.getObject();
-  },
-  computed: { ...mapGetters(["checkObj"]) },
-
-  methods: {
-    // getPers() {
-    //   // const res = await fetch(`https://swapi.dev/api${this.$route.fullPath}`);
-    //   // const arr = await res.json();
-    //   // const newPers = { ...arr, id: this.$route.params.id };
-    //   // this.checkedPerson = newPers;
-    //   const newArr = [...this.personList];
-    //   console.log(newArr, "тест");
-    //   const persId = newArr.find((el) => el.id == this.$route.params.id);
-    //   this.checkedPerson = persId;
-    //   this.$store.dispatch("updateObject", this.checkedPerson);
-
-    //   this.isLoading = false;
-    // },
-
-    getObject() {
-      this.checkedPerson = this.checkObj;
-      console.log(this.checkedPerson, "чекд");
-    },
-  },
+  }
 };
 </script>
 

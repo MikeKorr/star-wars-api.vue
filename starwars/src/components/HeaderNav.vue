@@ -16,15 +16,14 @@ export default {
 <style lang="scss">
 header {
   display: flex;
-  margin: 20px auto 0;
-  align-items: center;
+  margin-top: 20px;
+  justify-content: center;
 
   .header__container {
     display: flex;
     padding: 10px 10px;
     justify-content: space-around;
-    margin: 0 auto 0;
-    width: 900px;
+    width: 80%;
     border: 3px solid #ffe81f;
     border-radius: 6px;
     box-shadow: #ffe81f 0px 5px 15px;

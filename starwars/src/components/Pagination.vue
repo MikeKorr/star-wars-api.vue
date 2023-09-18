@@ -1,72 +1,78 @@
 <template>
-  <div>
-    <div>
-      <ul class="flex">
-        <li v-for="pers in totalPages" :key="pers">
-          <router-link :to="`/people/?page=${changedPage}`"
-            ><button
-              :class="{ actClass: changedPage === pers }"
-              class="btn-pagination"
-              @click="changePage(pers)"
-            >
-              {{ pers }}
-            </button></router-link
-          >
-        </li>
-      </ul>
-    </div>
-  </div>
+  <ul class="pagination">
+    <li v-for="page in totalPages" :key="page">
+      <router-link :to="`/people/?page=${currentPage}`">
+        <button :class="{ 'pagination__btn-active': currentPage === page }"
+                class="pagination__btn"
+                :disabled="disabled"
+                @click="changePage(page)">
+          {{ page }}
+        </button>
+      </router-link>
+    </li>
+  </ul>
 </template>
 
 <script>
 export default {
   name: "Pagination",
-  props: ["total", "item"],
+  props: {
+    total: {
+      type: Number,
+      required: true,
+    },
+    limit: {
+      type: Number,
+      default: 10
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+  },
   data() {
     return {
-      changedPage: 1,
+      currentPage: 1,
     };
   },
   computed: {
     totalPages() {
-      return Math.ceil(this.total / this.item);
+      return Math.ceil(this.total / this.limit);
+    },
+  },
+  methods: {
+    changePage(pageNumber) {
+      this.currentPage = pageNumber;
+      this.$emit("change", pageNumber);
     },
   },
   created() {
     if (this.$route.query.page) {
-      this.changePage(this.$route.query.page);
+      this.changePage(Number(this.$route.query.page));
     }
-  },
-  methods: {
-    changePage(pageNumber) {
-      this.changedPage = pageNumber;
-      this.$emit("pageChanged", pageNumber);
-    },
-  },
+  }
 };
 </script>
 
-<style lang="scss">
-.flex {
+<style scoped lang="scss">
+.pagination {
   display: flex;
   list-style-type: none;
 
-  .btn-pagination {
+  &__btn {
     background-color: #ffe81f;
-    color: black;
     border: 1px solid black;
     margin-right: 3px;
     font-size: 16px;
     font-weight: 600;
-  }
 
-  .actClass {
-    background-color: white;
-    color: black;
-    border: 1px solid black;
+    &-active {
+      background-color: white;
+      border: 1px solid black;
 
-    font-size: 16px;
-    font-weight: 600;
+      font-size: 16px;
+      font-weight: 600;
+    }
   }
 }
 </style>

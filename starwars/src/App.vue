@@ -1,7 +1,8 @@
 <template>
-  <main>
-    <div class="new"><HeaderNav /> <router-view></router-view></div>
-  </main>
+  <div class="wrapper">
+    <HeaderNav />
+    <router-view class="router"/>
+  </div>
 </template>
 
 <script>
@@ -13,17 +14,14 @@ export default {
 </script>
 
 <style lang="scss">
-main {
-  .new {
-    display: flex;
-    margin: 0 auto;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100vh;
-    background-image: url(./assets/images/zvezda.png);
-  }
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  background-image: url(./assets/images/zvezda.png);
+
+  .router { flex-grow: 1; }
 }
 </style>

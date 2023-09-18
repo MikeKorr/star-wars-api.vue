@@ -1,33 +1,24 @@
 <template>
-  <div class="mainpage">
-    <div class="container">
+  <div class="people">
+    <div class="container" v-if="!isError">
       <div class="list">
         <div class="box" v-if="isLoading">
-          <div
-            class="loader"
-            style="--b: 15px; --c: #ffe81f; width: 120px; --n: 8"
-          ></div>
+          <div class="loader" style="--b: 15px; --c: #ffe81f; width: 120px; --n: 8"></div>
         </div>
-        <div class="column" v-else>
-          <p v-for="(pers, index) of personList" :key="index">
-            <!-- <router-link class="list-elem" :to="`/people/${pers.id}`"> -->
-            <a @click="getObject(pers)" class="list-elem">
-              {{ index + 1 }}. {{ pers.name }}
-            </a>
-            <!-- </router-link> -->
+
+        <div v-else>
+          <p v-for="(person, index) of personList" :key="index">
+            <a @click="setPerson(person)" class="list-elem">{{ index + 1 }}. {{ person.name }}</a>
           </p>
-          <Pagination :total="total" :item="10" @pageChanged="loadPers" />
         </div>
+
+        <Pagination :total="total" :disabled="isLoading" @change="loadPeople" />
       </div>
-      <div class="info">
-        <InfoPage :personList="personList" />
-        <!--Поменять на инфопейдж-->
-        <!--Поменять пути страниц на ?page=-->
-      </div>
+
+      <InfoPage :selectedPerson="selectedPerson"/>
     </div>
-    <div v-show="isError">
-      <ErrorPage />
-    </div>
+
+    <ErrorPage v-else/>
   </div>
 </template>
 
@@ -44,36 +35,30 @@ export default {
 
   data() {
     return {
-      isLoading: true,
       personList: [],
-      page: 1,
+      selectedPerson: {},
       total: 0,
-      isError: false,
+      isLoading: false,
+      isError: false
     };
-  },
-
-  async created() {
-    await this.loadPers(this.page);
-    const el = await this.personList[0];
-    this.$store.dispatch("updateObject", el);
   },
   computed: { ...mapGetters(["getUrl", "checkObj", "checkErr"]) },
   methods: {
-    async loadPers(pageNumber) {
-      this.personList = await fetch(`${this.getUrl}/people/?page=${pageNumber}`)
+    async loadPeople(pageNumber) {
+      this.isLoading = true;
+
+       fetch(`${this.getUrl}/people/?page=${pageNumber}`)
         .then(checkResponse)
         .then((res) => {
           this.total = res.count;
-          return res.results.map((el, index) => {
-            return { ...el, id: index + 1 };
-          });
+          this.personList = res.results.map((el, index) => ({ ...el, id: index + 1 }));
+          this.selectedPerson = this.personList.at(0);
         })
-        .catch((e) => this.catchError(e)); //сделать нормальную обработку ошибок
-      this.isLoading = false;
+        .catch((e) => this.catchError(e))
+        .finally(() => { this.isLoading = false });
     },
-    getObject(obj) {
-      this.$store.dispatch("updateObject", obj);
-      console.log(this.checkObj, "нью обж");
+    setPerson(obj) {
+      this.selectedPerson = obj;
     },
     catchError(err) {
       this.isError = true;
@@ -84,14 +69,10 @@ export default {
 </script>
 
 <style lang="scss">
-.mainpage {
-  height: 100vh;
-  width: 100%;
-  position: relative;
-
+.people {
   .container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     margin: 150px auto 0;
     height: 600px;
     width: 80%;

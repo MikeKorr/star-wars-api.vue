@@ -111,6 +111,7 @@ export default {
   },
 
   created() {
+    console.log(this.$route)
     this.checkPers = this.checkObj;
     this.isLoading = false;
   },
