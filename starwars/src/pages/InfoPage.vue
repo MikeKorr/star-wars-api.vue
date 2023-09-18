@@ -1,12 +1,12 @@
 <template>
   <div class="box">
-    <div v-if="isLoading">
+    <!-- <div v-if="isLoading">
       <div
         class="loader"
         style="--b: 15px; --c: #ffe81f; width: 120px; --n: 8"
       ></div>
-    </div>
-    <div v-else class="text">
+    </div> -->
+    <div class="text">
       <img src="../assets/images/All.jpg" class="img" alt="Все персонажи" />
       <div class="info-box">
         <span class="span-text">Name - {{ checkedPerson.name }}</span>
@@ -54,23 +54,17 @@ export default {
   },
   data() {
     return {
-      isLoading: true,
       checkedPerson: {},
     };
   },
 
   watch: {
-    $route() {
-      this.isLoading = true;
-      // this.getPers();
-      // this.getObject(this.checkedPerson);
-      this.getObject();
+    checkObj() {
+      this.checkedPerson = this.checkObj;
     },
   },
 
   mounted() {
-    // this.getPers();
-    // this.getObject();
     this.getObject();
   },
   computed: { ...mapGetters(["checkObj"]) },
@@ -92,7 +86,7 @@ export default {
 
     getObject() {
       this.checkedPerson = this.checkObj;
-      console.log(this.checkedPerson, "обж");
+      console.log(this.checkedPerson, "чекд");
     },
   },
 };

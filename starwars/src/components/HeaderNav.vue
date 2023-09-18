@@ -2,7 +2,7 @@
   <header>
     <div class="header__container">
       <router-link class="link" to="/">MAIN PAGE</router-link>
-      <router-link class="link" to="/people">PEOPLE</router-link>
+      <router-link class="link" to="/people/?page=1">PEOPLE</router-link>
       <router-link class="link" to="/planets">PLANETS</router-link>
       <router-link class="link" to="/starships">SHIPS</router-link>
     </div>

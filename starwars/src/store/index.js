@@ -9,6 +9,7 @@ const store = createStore({
       // planets: [],
       // ships: [],
       check: {},
+      error: "",
     };
   },
   actions: {
@@ -25,7 +26,13 @@ const store = createStore({
     // },
 
     updateObject(context, obj) {
-      context.commit("updateObject", obj);
+      const newObj = { ...obj };
+      context.commit("updateObject", newObj);
+    },
+
+    updateError(context, err) {
+      const newErr = err;
+      context.commit("updateError", newErr);
     },
 
     // async requestPlanetsApi(context) {
@@ -64,6 +71,10 @@ const store = createStore({
     checkObj(state) {
       return state.check;
     },
+
+    checkErr(state) {
+      return state.error;
+    },
   },
   mutations: {
     // updatePeople(state, people) {
@@ -77,6 +88,9 @@ const store = createStore({
     // },
     updateObject(state, obj) {
       state.check = obj;
+    },
+    updateError(state, err) {
+      state.error = err;
     },
   },
 });

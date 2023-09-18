@@ -20,11 +20,13 @@
         </div>
       </div>
       <div class="info">
-        <!-- <router-view :personList="personList"></router-view> -->
         <InfoPage :personList="personList" />
         <!--Поменять на инфопейдж-->
         <!--Поменять пути страниц на ?page=-->
       </div>
+    </div>
+    <div v-show="isError">
+      <ErrorPage />
     </div>
   </div>
 </template>
@@ -34,10 +36,11 @@ import { mapGetters } from "vuex";
 import Pagination from "./Pagination.vue";
 import { checkResponse } from "../utils/utils";
 import InfoPage from "../pages/InfoPage.vue";
+import ErrorPage from "./ErrorPage.vue";
 
 export default {
   name: "People",
-  components: { Pagination, InfoPage },
+  components: { Pagination, InfoPage, ErrorPage },
 
   data() {
     return {
@@ -45,14 +48,16 @@ export default {
       personList: [],
       page: 1,
       total: 0,
+      isError: false,
     };
   },
 
   async created() {
     await this.loadPers(this.page);
-    this.isLoading = false;
+    const el = await this.personList[0];
+    this.$store.dispatch("updateObject", el);
   },
-  computed: { ...mapGetters(["getUrl"]) },
+  computed: { ...mapGetters(["getUrl", "checkObj", "checkErr"]) },
   methods: {
     async loadPers(pageNumber) {
       this.personList = await fetch(`${this.getUrl}/people/?page=${pageNumber}`)
@@ -63,10 +68,16 @@ export default {
             return { ...el, id: index + 1 };
           });
         })
-        .catch((e) => console.log(e)); //сделать нормальную обработку ошибок
+        .catch((e) => this.catchError(e)); //сделать нормальную обработку ошибок
+      this.isLoading = false;
     },
     getObject(obj) {
       this.$store.dispatch("updateObject", obj);
+      console.log(this.checkObj, "нью обж");
+    },
+    catchError(err) {
+      this.isError = true;
+      this.$store.dispatch("updateError", err);
     },
   },
 };

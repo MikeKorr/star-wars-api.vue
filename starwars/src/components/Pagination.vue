@@ -1,16 +1,20 @@
 <template>
   <div>
-    <ul class="flex">
-      <li v-for="pers in totalPages" :key="pers">
-        <button
-          :class="{ actClass: changedPage === pers }"
-          class="btn-pagination"
-          @click="changePage(pers)"
-        >
-          {{ pers }}
-        </button>
-      </li>
-    </ul>
+    <div>
+      <ul class="flex">
+        <li v-for="pers in totalPages" :key="pers">
+          <router-link :to="`/people/?page=${changedPage}`"
+            ><button
+              :class="{ actClass: changedPage === pers }"
+              class="btn-pagination"
+              @click="changePage(pers)"
+            >
+              {{ pers }}
+            </button></router-link
+          >
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 

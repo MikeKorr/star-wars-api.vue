@@ -11,7 +11,7 @@ const Ships = () => import("../components/Ships.vue");
 import InfoPage from "../pages/InfoPage.vue";
 import NoInfoPage from "../pages/NoInfoPage.vue";
 import MoreInfo from "../pages/MoreInfo.vue";
-
+import Pagination from "../components/Pagination.vue";
 import ErrorPage from "../pages/ErrorPage.vue";
 
 const router = createRouter({
@@ -22,19 +22,8 @@ const router = createRouter({
       name: "People",
       path: "/people",
       component: People,
-      children: [
-        {
-          name: "NoInfoPage",
-          path: "",
-          component: NoInfoPage,
-        },
-        {
-          name: "InfoPage",
-          path: ":id",
-          component: InfoPage,
-        },
-      ],
     },
+
     {
       name: "MoreInfo",
       path: "/moreinfo/:id",

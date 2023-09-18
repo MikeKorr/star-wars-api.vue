@@ -111,7 +111,6 @@ export default {
   },
 
   created() {
-    console.log(this.checkObj, "чек");
     this.checkPers = this.checkObj;
     this.isLoading = false;
   },
