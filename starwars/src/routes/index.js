@@ -39,35 +39,11 @@ const router = createRouter({
       name: "Planets",
       path: "/planets",
       component: Planets,
-      children: [
-        {
-          name: "PlanetsInfoPage",
-          path: ":id",
-          component: InfoPage,
-        },
-        {
-          name: "PlanetsNoInfoPage",
-          path: "",
-          component: NoInfoPage,
-        },
-      ],
     },
     {
       name: "Ships",
       path: "/starships",
       component: Ships,
-      children: [
-        {
-          name: "ShipsInfoPage",
-          path: ":id",
-          component: InfoPage,
-        },
-        {
-          name: "ShipsNoInfoPage",
-          path: "",
-          component: NoInfoPage,
-        },
-      ],
     },
     {
       path: "/:patchMatch(.*)*",
